@@ -14,6 +14,9 @@
 | 5   | [How to remove duplicate values from an array](#how-to-remove-duplicate-values-from-an-array)
 | 6   | [What are generator functions](#what-are-generator-functions)
 | 7   | [What are arrow functions in ES6](#what-are-arrow-functions-in-es6)
+| 8   | [What are the ES6 classes](#what-are-the-ES6-classes)
+| 9   | [What are prototypes in javascript](#what-are-prototypes-in-javascript)
+| 10  | [What is the this keyword](#what-is-the-this-keyword)
 
 1. ### What are the primitive data types in javascript
 
@@ -251,6 +254,89 @@
     }
     ```
 -----
+
+8. ### What are the ES6 classes
+
+    A JavaScript class is a blueprint for creating objects. A class encapsulates data and functions that manipulate the data.
+
+    Unlike other programming languages such as Java and C++, JavaScript classes are syntactic sugar over the prototypal inheritance. In other words, ES6 classes are just special functions.
+
+    ```javascript
+    class Person {
+        constructor(name) {
+            this.name = name;
+        }
+        getName() {
+            return this.name;
+        }
+    }
+
+    let john = new Person("John Doe");
+
+    let name = john.getName();
+    console.log(name); // "John Doe"
+    ```
+-----
+
+9. ### What are prototypes in javascript
+
+    In JavaScript, prototype refers to a system. This system allows you to define properties on objects that can be accessed via the object’s instances.
+
+    For example, an Array is a blueprint for array instances. You create an array instance with [] or new Array().
+
+    ```javascript
+    const array = ['one', 'two', 'three']
+    console.log(array);
+
+    // Same result as above
+    const array = new Array('one', 'two', 'three');
+    ```
+    If you console.log this array you won’t see any methods, but you can use methods like concat, slice, filter, and map!
+
+    Why?
+
+    Because these methods are located in the Array’s prototype. You can expand the __proto__ object (Chrome Devtools) or prototype object (Firefox Devtools) and you’ll see a list of methods.
+
+    When you use map, JavaScript looks for map in the object itself. If map is not found, JavaScript will try to look for a Prototype. If JavaScript finds a prototype, it continues to search for map in that prototype.
+
+    So the correct definition for Prototype is: An object that instances can access when they’re trying to look for a property.
+
+    -----
+
+    ##### Prototype Chains
+    Step 1: JavaScript checks if the property is available inside the object. If yes, JavaScript uses the property straight away.
+
+    Step 2: If the property is NOT inside the object, JavaScript checks if there’s a Prototype available. If there is a Prototype, repeat Step 1 (and check if the property is inside the prototype).
+
+    Step 3: If there are no more Prototypes left, and JavaScript cannot find the property, it does returns undefined or throws error depending upon if you called a property or method.
+
+-----
+
+10. ### What is the this keyword
+
+    The this references the object of which the function is a property. In other words, the this references the object that is currently calling the function.
+
+    Suppose that you have an object called counter. This object counter has a method called next().
+
+    When you call the next() method, you can access the this object.
+
+
+    ```javascript
+    const counter = {
+        count: 0,
+        next: function () {
+            return ++this.count;
+        }
+    };
+
+    counter.next();    
+    ```
+    The next() is a function which is the property of the counter object. Therefore, inside the next() function, the this references the counter object.
+
+    By the way, when a function is a property of an object, it is called a method.
+
+-----
+
 
 
 
