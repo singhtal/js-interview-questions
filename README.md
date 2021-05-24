@@ -17,7 +17,6 @@
 | 8   | [What are the ES6 classes](#what-are-the-ES6-classes)
 | 9   | [What are prototypes in javascript](#what-are-prototypes-in-javascript)
 | 10  | [What is the this keyword](#what-is-the-this-keyword)
-
 | 11  | [Difference between currentTarget property and target property](#difference-between-currentTarget-property-and-target-property)
 | 12  | [Difference between event bubbling and capturing](#difference-between-event-bubbling-and-capturing)
 | 13  | [What is Document Object Model (DOM)](#what-is-document-object-model-dom)
