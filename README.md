@@ -17,9 +17,15 @@
 | 8   | [What are the ES6 classes](#what-are-the-ES6-classes)
 | 9   | [What are prototypes in javascript](#what-are-prototypes-in-javascript)
 | 10  | [What is the this keyword](#what-is-the-this-keyword)
-| 11  | [Difference between currentTarget property and target property ](#difference-between-currentTarget-property-and-target-property)
+
+| 11  | [Difference between currentTarget property and target property](#difference-between-currentTarget-property-and-target-property)
 | 12  | [Difference between event bubbling and capturing](#difference-between-event-bubbling-and-capturing)
-| 13  | [What is Document Object Model (DOM)](#what-is-Document-Object-Model)
+| 13  | [What is Document Object Model (DOM)](#what-is-document-object-model-dom)
+| 14  | [What happens when you type a web address into your browser](#what-happens-when-you-type-a-web-address-into-your-browser)
+| 15  | [Difference between async and defer](#difference-between-async-and-defer)
+| 16  | [What is event delegation](#what-is-event-delegation)
+| 17  | [What is the difference between throttling and debouncing](#what-is-the-difference-between-throttling-and-debouncing)
+| 18  | [What are the Closures](#what-are-the-closures)
 
 
 1. ### What are the primitive data types in javascript
@@ -384,9 +390,209 @@
     In the image above, we can see the representational tree and how it is created by the browser. In this example, we have four important elements that you’re gonna see a lot:
 
     <i>Document:</i> It treats all the HTML documents.
+
     <i>Elements:</i> All the tags that are inside your HTML or XML turn into a DOM element.
+
     <i>Text:</i> All the tags’ content.
+
     <i>Attributes:</i> All the attributes from a specific HTML element. In the image, the attribute class=”hero” is an attribute from the "p" element.
+
+-----
+
+14. ### What happens when you type a web address into your browser
+
+    1) The browser goes to the DNS server, and finds the real address of the server that the website lives on (you find the address of the shop).
+
+    2) The browser sends an HTTP request message to the server, asking it to send a copy of the website to the client (like you go to the shop and order your goods). This message, and all other data sent between the client and the server, is sent across your internet connection using TCP/IP.
+
+    3) If the server approves the client's request, the server sends the client a "200 OK" message, which means "Of course you can look at that website! Here it is", and then starts sending the website's files to the browser as a series of small chunks called data packets (the shop gives you your goods, and you bring them back to your house).
+
+    4) The browser assembles the small chunks into a complete web page and displays it to you (the goods arrive at your door — new shiny stuff, awesome!).
+
+    #### Order in which component files are parsed
+
+    1) Once the client’s request is approved, the server first sends back the HTML (index) file — index.html is commonly named as such, as it is the first file of a website to be parsed by the server.
+
+    2) The HTML file can reference CSS and JavaScript, either in external files via "link" and "script" elements respectively, or embedded in the HTML page via "style" and "script" elements.
+
+    3) From a server standpoint it is important to know the order in which these files are parsed when the response is sent back:
+
+    4) The HTML file is parsed first and, by looking inside that file, the server recognises which CSS and JavaScript files are referenced.
+
+    5) After the HTML has been parsed and a DOM tree structure has been generated from it, the linked CSS is then parsed, and styles are applied to the appropriate parts of the DOM tree. At this point, the visual representation of the page is painted to the screen, and the user sees the page.
+
+    6) The JavaScript usually gets parsed and applied to the page after the HTML and CSS.
+
+-----
+
+15. ### Difference between async and defer
+
+    In modern websites, scripts are often “heavier” than HTML: their download size is larger, and processing time is also longer.
+
+    When the browser loads HTML and comes across a <script>...</script> tag, it can’t continue building the DOM. It must execute the script right now. The same happens for external scripts <script src="..."></script>: the browser must wait for the script to download, execute the downloaded script, and only then can it process the rest of the page.
+
+    That leads to two important issues:
+
+    Scripts can’t see DOM elements below them, so they can’t add handlers etc.
+
+    If there’s a bulky script at the top of the page, it “blocks the page”. Users can’t see the page content till it downloads and runs.
+
+    Luckily, there are two <i>script</i> attributes that solve the problem for us: defer and async.
+
+    #### Defer
+    The defer attribute tells the browser not to wait for the script. Instead, the browser will continue to process the HTML, build DOM. The script loads “in the background”, and then runs when the DOM is fully built.
+
+    #### Async
+    The async attribute is somewhat like defer. It also makes the script non-blocking. But it has important differences in the behavior. async scripts load in the background and run when ready. 
+
+-----
+
+16. ### What is event delegation
+
+    When building an application, sometimes you’ll need to attach event listeners to buttons, text, or images on the page in order to perform some action when the user interacts with the element.
+
+    If we take a simple todo list as an example, the interviewer may tell you that they want an action to occur when a user clicks one of the list items. And they want you to implement this functionality in JavaScript assuming the following HTML code:
+
+    ```html
+    <ul id="todo-app">
+    <li class="item">Walk the dog</li>
+    <li class="item">Pay bills</li>
+    <li class="item">Make dinner</li>
+    <li class="item">Code for one hour</li>
+    </ul>
+    ```
+    You may want to do something like the following to attach event listeners to the elements:
+
+    ```javascript
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    let app = document.getElementById('todo-app');
+    let items = app.getElementsByClassName('item');
+    
+    // attach event listener to each item
+    for (let item of items) {
+        item.addEventListener('click', function() {
+        alert('you clicked on item: ' + item.innerHTML);
+        });
+    }
+    
+    });
+    ```
+
+    While this does technically work, the problem is that you’re attaching an event listener to every single item individually. This is fine for 4 elements, but what if someone adds 10,000 items (they may have a lot of things to do) to their todo list? Then your function will create 10,000 separate event listeners and attach each of them to the DOM. This isn’t very efficient.
+
+    Here’s the code for event delegation:
+
+    ```javascript
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    let app = document.getElementById('todo-app');
+    
+    // attach event listener to whole container
+    app.addEventListener('click', function(e) {
+        if (e.target && e.target.nodeName === 'LI') {
+        let item = e.target;
+        alert('you clicked on item: ' + item.innerHTML);
+        }
+    });
+    
+    });
+    ```
+
+-----
+
+17. ### What is the difference between throttling and debouncing
+
+<strong>Throttling</strong> will delay executing a function. It will reduce the notifications of an event that fires multiple times. Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every 100 milliseconds."
+
+<strong>Debouncing</strong> will bunch a series of sequential calls to a function into a single call to that function. It ensures that one notification is made for an event that fires multiple times. Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
+
+<strong>Throttle (1 sec):</strong> Hello, I am a robot. As long as you keep pinging me, I will keep talking to you, but after exactly 1 second each. If you ping me for a reply before a second is elapsed, I will still reply to you at exactly 1 second interval. In other words, I just love to reply at exact intervals.
+
+<strong>Debounce (1 sec):</strong> Hi, I am that ^^ robot's cousin. As long as you keep pinging me, I am going to remain silent because I like to reply only after 1 second is passed since last time you pinged me. I don't know, if it is because I have an attitude problem or because I just don't like to interrupt people. In other words, if you keeping asking me for replies before 1 second is elapsed since your last invocation, you will never get a reply. Yeah yeah...go ahead! call me rude.
+
+-----
+
+18. ### What are the Closures
+
+    Whenever a function is invoked, a new scope is created for that call. The local variable declared inside the function belong to that scope – they can only be accessed from that function -. It’s very important to understand that before moving further.
+
+    Remember:
+
+    1) The function scope is created for a function call, not for the function itself
+
+    2)Every function call creates a new scope
+
+    When the function has finished the execution, the scope is usually destroyed. 
+
+    ```javascript
+
+    function buildName(name) { 
+        var greeting = "Hello, " + name; 
+        return greeting;
+    }
+    ```
+
+    The function buildName() declares a local variable greeting and returns it. Every function call creates a new scope with a new local variable and  after the function is done executing, we have no way to refer to that scope again, so it’s garbage collected.
+
+    But how about when we have a link to that scope? Let’s look at the next function:
+
+    ```javascript
+    function buildName(name) { 
+        var greeting = "Hello, " + name + "!"; 
+        var sayName = function() {
+            var welcome = greeting + " Welcome!";
+            console.log(greeting); 
+        };
+        return sayName; 
+    }
+
+    var sayMyName = buildName("John");
+    sayMyName();  // Hello, John. Welcome!
+    sayMyName();  // Hello, John. Welcome!
+    sayMyName();  // Hello, John. Welcome!
+    ```
+    The function sayName() from this example is a closure.
+
+    A closure is a function which has access to the variable from another function’s scope. This is accomplished by creating a function inside a function. Of course, the outer function does not have access to the inner scope.
+
+    The sayName() function has it’s own local scope (with variable welcome) and has also access to the outer (enclosing) function’s scope. It this case, the variable greeting from buildName().
+
+    After the execution of buildName is done, the scope is not destroyed in this case. The sayMyName() function still has access to it, so it won’t be garbage collected. However, there is not other way of accessing data from the outer scope except the closure.
+
+    This is the big gotcha of the entire concept. The closure serve as the gateway between the global context and the outer scope. I cannot access directly variables from the outer scope if the closure is not allowing it. This way, I can protect the variables from the outer scope. They are – by all means – private and the closure can serve as a getter or setter for them.
+
+    Remember:
+
+    1) Closure are nested function which has access to the outer scope
+
+    2) After the outer function is returned, by keeping a reference to the inner function (the closures) we prevent the outer scope to be destroyed.
+
+    Another extremely important thing to understand is that a closure is created at every function call. Whenever I’m using the closure, it will reference the same outer scope. If any variable is change in the outer scope, than the change will be visible in the next call as well.
+
+    ```javascript
+    function buildContor(i) { 
+        var contor = i;
+        var displayContor = function() {
+            console.log(contor++);
+            contor++;
+        };
+        return displayContor; 
+    }
+
+    var myContor = buildContor(1);
+    myContor(); // 1
+    myContor(); // 2
+    myContor(); // 3
+
+    // new closure - new outer scope - new contor variable
+    var myOtherContor = buildContor(10);
+    myOtherContor(); // 10 
+    myOtherContor(); // 11
+
+    // myContor was not affected 
+    myContor(); // 4
+    ```
 
 -----
 
