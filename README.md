@@ -17,6 +17,10 @@
 | 8   | [What are the ES6 classes](#what-are-the-ES6-classes)
 | 9   | [What are prototypes in javascript](#what-are-prototypes-in-javascript)
 | 10  | [What is the this keyword](#what-is-the-this-keyword)
+| 11  | [Difference between currentTarget property and target property ](#difference-between-currentTarget-property-and-target-property)
+| 12  | [Difference between event bubbling and capturing](#difference-between-event-bubbling-and-capturing)
+| 13  | [What is Document Object Model (DOM)](#what-is-Document-Object-Model)
+
 
 1. ### What are the primitive data types in javascript
 
@@ -336,6 +340,57 @@
     By the way, when a function is a property of an object, it is called a method.
 
 -----
+
+11. ### Difference between currentTarget property and target property
+
+    In Javascript, events bubbles by default, so it becomes extremely important to understand the difference:
+
+    <i>target</i> = element that triggered event
+
+    <i>currentTarget</i> = element that listens to event.
+
+    For example - you can have a click event listener on ul but if you click on li when target event.target will be li and event.currentTarget will be the ul.
+
+-----
+
+12. ### Difference between event bubbling and capturing 
+
+    Back in the old days, Netscape advocated event capturing, while Microsoft promoted event bubbling.
+
+    Event bubbling and capturing are two ways of event propagation in the HTML DOM API, when an event occurs in an element inside another element, and both elements have registered a handle for that event. The event propagation mode determines in which order the elements receive the event.
+
+    With bubbling, the event is first captured and handled by the innermost element and then propagated to outer elements.
+
+    With capturing, the event is first captured by the outermost element and propagated to the inner elements.
+
+    We can use the below code -
+    ```javascript 
+    addEventListener(type, listener, useCapture)
+    ```
+     to register event handlers for in either bubbling (default) or capturing mode. To use the capturing model pass the third argument as true.
+
+-----
+
+13. ### What is Document Object Model (DOM)
+
+    The Document Object Model (DOM) is a programming API for HTML and XML documents. The document object represents the whole html document.
+
+    When html document is loaded in the browser, it becomes a document object. It is the root element that represents the html document. It has properties and methods. By the help of document object, we can add dynamic content to our web page.
+
+    After the browser reads your HTML document, it creates a representational tree called the Document Object Model and defines how that tree can be accessed.
+
+    <img src="https://cdn-media-1.freecodecamp.org/images/3n6SPcMH0mmG6cFeB3SJBEA-9Yyfgp3xYZ7u" alt="DOM" />
+
+    In the image above, we can see the representational tree and how it is created by the browser. In this example, we have four important elements that you’re gonna see a lot:
+
+    <i>Document:</i> It treats all the HTML documents.
+    <i>Elements:</i> All the tags that are inside your HTML or XML turn into a DOM element.
+    <i>Text:</i> All the tags’ content.
+    <i>Attributes:</i> All the attributes from a specific HTML element. In the image, the attribute class=”hero” is an attribute from the "p" element.
+
+-----
+
+
 
 
 
