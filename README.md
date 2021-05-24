@@ -25,6 +25,8 @@
 | 16  | [What is event delegation](#what-is-event-delegation)
 | 17  | [What is the difference between throttling and debouncing](#what-is-the-difference-between-throttling-and-debouncing)
 | 18  | [What are the Closures](#what-are-the-closures)
+| 19  | [What are IIFE](#what-are-iife)
+| 20  | [How to get geolocation with javascript](#how-to-get-geolocation-with-javascript)
 
 
 1. ### What are the primitive data types in javascript
@@ -595,8 +597,39 @@
 
 -----
 
+19. ### What are IIFE
 
+    An immediately-invoked function expression (IIFE) immediately calls a function. This simply means that the function is executed immediately after the completion of the definition.
 
+    ```javascript
+    (function() {
+        console.log('Welcome to the Github.');
+    }());
+    ```
+    1. Avoiding pollution in the global namespace.
+
+    2. Variables defined in IIFE (or even any normal function) don't overwrite definitions in global scope.
+
+    3. Protecting code from being accessed by outer code.
+
+        Everything that you define within the IIFE can be only be accessed within the IIFE. It protects code from being modified by outer code. Only what you explicitly return as the result of function or set as value to outer variables is accessible by outer code.
+
+    4. Avoid naming functions that you don't need to use repeatedly. Though it's possible to use a named function in IIFE pattern you don't do it as there is no need to call it repeatedly, generally.
+
+    5. For Universal Module Definitions which is used in many JS libraries. Check this question for details.
+
+-----
+
+20. ### How to get geolocation with javascript
+
+    ```javascript 
+    navigator.geolocation.getCurrentPosition(function(location) {
+    console.log(location.coords.latitude);
+    console.log(location.coords.longitude);
+    console.log(location.coords.accuracy);
+    });
+    ```
+-----
 
 
 
