@@ -27,6 +27,9 @@
 | 18  | [What are the Closures](#what-are-the-closures)
 | 19  | [What are IIFE](#what-are-iife)
 | 20  | [How to get geolocation with javascript](#how-to-get-geolocation-with-javascript)
+| 21  | [What is a design pattern](#what-is-a-design-pattern)
+| 22  | [What is a Module Design Pattern](#what-is-a-module-design-pattern)
+
 
 
 1. ### What are the primitive data types in javascript
@@ -624,10 +627,66 @@
 
     ```javascript 
     navigator.geolocation.getCurrentPosition(function(location) {
-    console.log(location.coords.latitude);
-    console.log(location.coords.longitude);
-    console.log(location.coords.accuracy);
+        console.log(location.coords.latitude);
+        console.log(location.coords.longitude);
+        console.log(location.coords.accuracy);
     });
+    ```
+-----
+
+21. ### What is a design pattern
+
+    In software engineering, a design pattern is a reusable solution for commonly occurring problems in software design. Design patterns represent the best practices used by the experienced software developers. A design pattern can be thought of as a programming template.
+
+    Using an appropriate design pattern can help you to write better and more understandable code, and the code can be easily maintained because it’s easier to understand. Most importantly, the design patterns give software developers a common vocabulary to talk about. They show the intent of your code instantly to someone learning the code.
+
+    #### Why do we need Design Patterns ?
+
+    1. It’s a reusable solution that can be applied to commonly occurring problems in software design.
+    2. Patterns are proven, expressive, reusable and offer value.
+    3. Code becomes more expressive, encapsulated & structured.
+    4. When creating or maintaining solutions, one of the most powerful approaches to getting all developers or teams of your organization on the same page is creating Design patterns.
+    5. One of the most important aspects of writing maintainable code is being able to notice the recurring themes in that code and optimize them.
+
+    Some examples are design patterns are - Module Pattern, Constructor Pattern, Singleton Pattern, Observer Pattern etc.
+
+-----
+
+22. ### What is a Module Design Pattern
+
+    Modules should be Immediately-Invoked-Function-Expressions (IIFE) to allow for private scopes - that is, a closure that protect variables and methods (however, it will return an object instead of a function). This is what it looks like:
+
+    ```javascript
+    (function() {
+        // declare private variables and/or functions
+        return {
+            // declare public variables and/or functions
+        }
+    })();
+    ```
+
+    Here we instantiate the private variables and/or functions before returning our object that we want to return. Code outside of our closure is unable to access these private variables since it is not in the same scope. Let’s take a more concrete implementation:
+
+    ```javascript
+    var HTMLChanger = (function() {
+        var contents = 'contents'
+
+        var changeHTML = function() {
+            var element = document.getElementById('attribute-to-change');
+            element.innerHTML = contents;
+        }
+
+        return {
+            callChangeHTML: function() {
+                changeHTML();
+                console.log(contents);
+            }
+        };
+
+    })();
+
+    HTMLChanger.callChangeHTML();       // Outputs: 'contents'
+    console.log(HTMLChanger.contents);  // undefined
     ```
 -----
 
